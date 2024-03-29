@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    // other options...
+  },
+  "extends": "@graphprotocol/graph-ts/types/tsconfig.base.json",
+  "include": ["src"]
+}

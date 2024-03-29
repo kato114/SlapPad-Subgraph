@@ -1,0 +1,120 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: PoolFactory
+    network: chapel
+    source:
+      address: "0xd80aB0dB4969893eb533AB5ed62D47F5Bb39fcb4"
+      abi: PoolFactory
+      startBlock: 38239472
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - PresaleCreated
+        - PrivateCreated
+        - FairCreated
+      abis:
+        - name: PoolFactory
+          file: ./abis/PoolFactory.json
+      eventHandlers:
+        - event: PresaleCreated(address,address[4],uint256[16],string,uint256[3],string[3],address)
+          handler: handlePresaleCreated
+        - event: PrivateCreated(address,address[4],uint256[13],string,uint256[3],string[3],address)
+          handler: handlePrivateCreated
+        - event: FairCreated(address,address[4],uint256[11],string,string[3],address)
+          handler: handleFairCreated
+      file: ./src/PoolFactory.ts
+  - kind: ethereum
+    name: AirdropFactory
+    network: chapel
+    source:
+      address: "0xBe3eCd736e2d79C50C9DeeF680bEB23b24880a09"
+      abi: AirdropFactory
+      startBlock: 38239472
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - AirdropCreated
+      abis:
+        - name: AirdropFactory
+          file: ./abis/AirdropFactory.json
+      eventHandlers:
+        - event: AirdropCreated(indexed address,address,string,address)
+          handler: handleAirdropCreated
+      file: ./src/AirdropFactory.ts
+templates:
+  - name: PresalePool
+    kind: ethereum/contract
+    network: chapel
+    source:
+      abi: PresalePool
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/PresalePool.ts
+      entities:
+        - Cancelled
+        - Claimed
+        - Contributed
+        - Finalized
+        - LiquidityWithdrawn
+        - PoolUpdated
+        - WithdrawnContribution
+      abis:
+        - name: PresalePool
+          file: ./abis/PresalePool.json
+      eventHandlers:
+        - event: Cancelled()
+          handler: handleCancelled
+        - event: Claimed(indexed address,uint256)
+          handler: handleClaimed
+        - event: Contributed(indexed address,uint256)
+          handler: handleContributed
+        - event: Finalized(uint256,uint256)
+          handler: handleFinalized
+        - event: LiquidityWithdrawn(uint256)
+          handler: handleLiquidityWithdrawn
+        - event: PoolUpdated(string)
+          handler: handlePoolUpdated
+        - event: WithdrawnContribution(indexed address,uint256)
+          handler: handleWithdrawnContribution
+  - name: AirdropPool
+    kind: ethereum/contract
+    network: chapel
+    source:
+      abi: AirdropPool
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/AirdropPool.ts
+      entities:
+        - Claim
+        - CancelAirdrop
+        - SetStartTime
+        - SetVesting
+        - SetAllocations
+        - RemoveAllocations
+      abis:
+        - name: AirdropPool
+          file: ./abis/AirdropPool.json
+      eventHandlers:
+        - event: Claim(indexed uint256,uint256,address)
+          handler: handleClaim
+        - event: CancelAirdrop()
+          handler: handleCancelAirdrop
+        - event: SetStartTime(uint256)
+          handler: handleSetStartTime
+        - event: SetVesting(uint256,uint256,uint256)
+          handler: handleSetVesting
+        - event: SetAllocations(address[],uint256[])
+          handler: handleSetAllocations
+        - event: RemoveAllocations()
+          handler: handleRemoveAllocations

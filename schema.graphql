@@ -1,0 +1,70 @@
+type Pool @entity {
+  id: ID!
+  poolAddress: Bytes!
+  currencyAddress: Bytes!
+  endTime: BigInt!
+  hardCap: BigInt!
+  liquidityListingRate: BigInt!
+  liquidityPercent: BigInt!
+  maxContribution: BigInt!
+  minContribution: BigInt!
+  poolState: Int!
+  poolDetails: String!
+  poolType: Int!
+  rate: BigInt!
+  softCap: BigInt!
+  startTime: BigInt!
+  token: Bytes!
+  totalRaised: BigInt!
+  liquidityRaised: BigInt!
+  totalValueRaised: BigInt!  
+  participants: BigInt!
+  createdBy: Bytes!
+  createdAt: BigInt!
+}
+
+type Contribute @entity {
+  id: ID!
+  poolAddress: Bytes!
+  user: Bytes!
+  currencyAmount: BigInt!
+  createdAt: BigInt!
+}
+
+type Claim @entity {
+  id: ID!
+  poolAddress: Bytes!
+  user: Bytes!
+  tokenAmount: BigInt!
+  createdAt: BigInt!
+}
+
+type Refund @entity {
+  id: ID!
+  poolAddress: Bytes!
+  user: Bytes!
+  currencyAmount: BigInt!
+  createdAt: BigInt!
+}
+
+type Airdrop @entity {
+  id: ID!
+  poolAddress: Bytes!
+  poolDetails: String!
+  startTime: BigInt!
+  token: Bytes!
+  totalClaimedAmount: BigInt!
+  totalAllocationNumber: BigInt!
+  totalAllocationAmount: BigInt!
+  participants: BigInt!
+  createdBy: Bytes!
+  createdAt: BigInt!
+}
+
+type Allocation @entity {
+  id: ID!
+  poolAddress: Bytes!
+  recepient: Bytes!
+  amount: BigInt!
+  claimed: Boolean!
+}
